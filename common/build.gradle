@@ -1,5 +1,5 @@
 dependencies {
-    implementation project(":nuvotifier-api")
+    implementation project(":katyouvotifier-api")
     implementation group: "io.netty", name: "netty-handler", version: "4.1.49.Final"
     implementation group: "io.netty", name: "netty-transport-native-epoll", version: "4.1.49.Final", classifier: "linux-x86_64"
     implementation 'com.google.code.gson:gson:2.8.0'

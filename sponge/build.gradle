@@ -7,6 +7,6 @@ blossom {
 dependencies {
     compileOnly group: "org.spongepowered", name: "spongeapi", version: "7.1.0"
     annotationProcessor group: "org.spongepowered", name: "spongeapi", version: "7.1.0"
-    implementation project(":nuvotifier-api")
-    implementation project(":nuvotifier-common")
+    implementation project(":katyouvotifier-api")
+    implementation project(":katyouvotifier-common")
 }

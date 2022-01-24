@@ -45,16 +45,16 @@ class NettyEpollTransformer implements Transformer {
 apply plugin: 'com.github.johnrengelman.shadow'
 
 dependencies {
-    implementation project(":nuvotifier-api")
-    implementation project(":nuvotifier-common")
-    implementation project(":nuvotifier-bukkit")
-    implementation project(":nuvotifier-bungeecord")
-    implementation project(":nuvotifier-sponge")
-    implementation project(":nuvotifier-velocity")
+    implementation project(":katyouvotifier-api")
+    implementation project(":katyouvotifier-common")
+    implementation project(":katyouvotifier-bukkit")
+    implementation project(":katyouvotifier-bungeecord")
+    implementation project(":katyouvotifier-sponge")
+    implementation project(":katyouvotifier-velocity")
 }
 
 shadowJar {
-    archiveBaseName = 'nuvotifier'
+    archiveBaseName = 'katyouvotifier'
     relocate "io.netty", "com.vexsoftware.votifier.io.netty"
     relocate "org.json", "com.vexsoftware.votifier.json"
     relocate new SimpleRelocator("com.google.code", "com.vexsoftware.votifier.google.code", new ArrayList<String>(), Collections.singletonList("com.vexsoftware.votifier.sponge"))
