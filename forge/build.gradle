@@ -73,7 +73,6 @@ configurations {
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
-
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.23'
 
     shadowIn(project(":katyouvotifier-api")) {
@@ -124,5 +123,43 @@ artifacts {
     archives devJar
     archives sourceJar
 }
-
 jar.finalizedBy('reobfJar')
+
+publishing {
+    publications {
+        mavenJava(MavenPublication) {
+            artifactId = 'katyouvotifier'
+            artifact shadowJar
+            pom {
+                name = 'KatyouVotifier'
+                description = 'Forked NuVotifier and ported it to Forge'
+                licenses {
+                    license {
+                        name = 'GNU General Public License v3.0'
+                        url = 'https://www.gnu.org/licenses/gpl-3.0.txt'
+                    }
+                }
+                developers {
+                    developer {
+                        id = 'MORIMORI0317'
+                        name = 'MORIMORI0317'
+                    }
+                    developer {
+                        id = 'FelNull'
+                        name = 'TeamFelNull'
+                        email = 'teamfelnull@m.servg.red'
+                    }
+                }
+            }
+        }
+    }
+    repositories {
+        maven {
+            url "https://maven.felnull.dev/"
+            credentials {
+                username = 'felnull'
+                password = ''
+            }
+        }
+    }
+}

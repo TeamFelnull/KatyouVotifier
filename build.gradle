@@ -6,7 +6,7 @@ plugins {
 }
 
 allprojects {
-    group 'com.vexsoftware'
+    group 'dev.felnull'
     version '3.0.0-SNAPSHOT-1.0'
 }
 
