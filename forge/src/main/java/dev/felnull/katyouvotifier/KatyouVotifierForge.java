@@ -4,23 +4,21 @@ import com.vexsoftware.votifier.platform.LoggingAdapter;
 import dev.felnull.katyouvotifier.handler.ServerHandler;
 import net.minecraft.server.MinecraftServer;
 import net.minecraftforge.common.MinecraftForge;
+import net.minecraftforge.fml.ExtensionPoint;
+import net.minecraftforge.fml.ModLoadingContext;
 import net.minecraftforge.fml.common.Mod;
-import net.minecraftforge.fml.event.lifecycle.FMLCommonSetupEvent;
-import net.minecraftforge.fml.javafmlmod.FMLJavaModLoadingContext;
+import net.minecraftforge.fml.network.FMLNetworkConstants;
+import org.apache.commons.lang3.tuple.Pair;
 import org.apache.logging.log4j.LogManager;
 
 @Mod(KatyouVotifierForge.MODID)
 public class KatyouVotifierForge {
     public static final String MODID = "katyouvotifier";
-    public static LoggingAdapter LOGGER;
+    public static final LoggingAdapter LOGGER = new Log4jLoggerAdapter(LogManager.getLogger());
 
     public KatyouVotifierForge() {
-        FMLJavaModLoadingContext.get().getModEventBus().addListener(this::setup);
+        ModLoadingContext.get().registerExtensionPoint(ExtensionPoint.DISPLAYTEST, () -> Pair.of(() -> FMLNetworkConstants.IGNORESERVERONLY, (a, b) -> true));
         MinecraftForge.EVENT_BUS.register(ServerHandler.class);
-    }
-
-    private void setup(final FMLCommonSetupEvent event) {
-        LOGGER = new Log4jLoggerAdapter(LogManager.getLogger());
     }
 
     public static void startVotifier(MinecraftServer server) {

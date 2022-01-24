@@ -66,7 +66,7 @@ public class ForgeScheduler implements VotifierScheduler {
             if (delay == 0) {
                 this.future = runTask(server, this.runnable, async);
             } else {
-                ServerHandler.tasks.add(this);
+                ServerHandler.addTask(this);
             }
         }
 

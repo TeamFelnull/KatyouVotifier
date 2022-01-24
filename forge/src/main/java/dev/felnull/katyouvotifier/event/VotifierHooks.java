@@ -10,6 +10,8 @@ public class VotifierHooks {
     public static void onVote(Vote vote) {
         MinecraftServer server = LogicalSidedProvider.INSTANCE.get(LogicalSide.SERVER);
         if (server != null)
-            server.submit(() -> MinecraftForge.EVENT_BUS.post(new VotifierEvent(vote)));
+            server.submit(() -> {
+                MinecraftForge.EVENT_BUS.post(new VotifierEvent(vote));
+            });
     }
 }

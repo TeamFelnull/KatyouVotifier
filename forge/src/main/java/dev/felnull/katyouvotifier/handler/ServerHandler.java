@@ -24,8 +24,8 @@ import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
 import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
-import java.io.FileReader;
 import java.io.IOException;
+import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
 import java.security.Key;
 import java.security.KeyPair;
@@ -36,11 +36,11 @@ import java.util.Map;
 
 public class ServerHandler {
     private static final Gson GSON = new GsonBuilder().setPrettyPrinting().create();
-    public static final List<ForgeScheduler.ForgeTask> tasks = new ArrayList<>();
+    private static final List<ForgeScheduler.ForgeTask> tasks = new ArrayList<>();
     private static final List<ForgeScheduler.ForgeTask> removed = new ArrayList<>();
     private static VotifierServerBootstrap bootstrap;
     private static ForgeScheduler scheduler;
-    public static NuVotifierHandler votifierHandler;
+    private static NuVotifierHandler votifierHandler;
 
     @SubscribeEvent
     public static void onServetTick(TickEvent.ServerTickEvent e) {
@@ -125,7 +125,8 @@ public class ServerHandler {
     public static JsonObject getOrGenerateConfig(File configFile) {
         if (configFile.exists()) {
             try {
-                return GSON.fromJson(new FileReader(configFile), JsonObject.class);
+                String jp = new String(Files.readAllBytes(configFile.toPath()), StandardCharsets.UTF_8);
+                return GSON.fromJson(jp, JsonObject.class);
             } catch (IOException ignored) {
             }
         }
@@ -156,7 +157,7 @@ public class ServerHandler {
                 KatyouVotifierForge.LOGGER.error("Failed to create config directory!");
         } else {
             try {
-                Files.write(configFile.toPath(), GSON.toJson(jo).getBytes());
+                Files.write(configFile.toPath(), GSON.toJson(jo).getBytes(StandardCharsets.UTF_8));
             } catch (IOException e) {
                 e.printStackTrace();
                 KatyouVotifierForge.LOGGER.error("Failed to write config file!", e);
@@ -191,5 +192,13 @@ public class ServerHandler {
             }
             return false;
         }
+    }
+
+    public static NuVotifierHandler getVotifierHandler() {
+        return votifierHandler;
+    }
+
+    public static void addTask(ForgeScheduler.ForgeTask task) {
+        tasks.add(task);
     }
 }

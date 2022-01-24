@@ -23,8 +23,8 @@ public class TestVoteCommand {
         if (timestamp < 0)
             timestamp = System.currentTimeMillis();
         Vote vote = new Vote(username, serviceName, address, Long.toString(timestamp, 10));
-        if (ServerHandler.votifierHandler != null) {
-            ServerHandler.votifierHandler.onVoteReceived(vote, VotifierSession.ProtocolVersion.TEST, "localhost.test");
+        if (ServerHandler.getVotifierHandler() != null) {
+            ServerHandler.getVotifierHandler().onVoteReceived(vote, VotifierSession.ProtocolVersion.TEST, "localhost.test");
             source.sendSuccess(new StringTextComponent("Test vote executed: " + vote).withStyle(TextFormatting.GREEN), false);
         }
         return 1;

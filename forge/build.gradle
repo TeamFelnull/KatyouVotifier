@@ -7,7 +7,9 @@ buildscript {
         classpath group: 'net.minecraftforge.gradle', name: 'ForgeGradle', version: '5.1.+', changing: true
     }
 }
-
+plugins {
+    id "com.github.johnrengelman.shadow" version "4.0.4"
+}
 apply plugin: 'net.minecraftforge.gradle'
 apply plugin: 'eclipse'
 apply plugin: 'maven-publish'
@@ -64,42 +66,63 @@ minecraft {
         }
     }
 }
-
+configurations {
+    shadowIn
+    implementation.extendsFrom(shadowIn)
+}
 sourceSets.main.resources { srcDir 'src/generated/resources' }
 
 dependencies {
 
     minecraft 'net.minecraftforge:forge:1.16.5-36.2.23'
 
-    implementation project(":katyouvotifier-api")
-    implementation project(":katyouvotifier-common")
+    shadowIn(project(":katyouvotifier-api")) {
+        transitive = false
+    }
+    shadowIn(project(":katyouvotifier-common")) {
+        transitive = false
+    }
+}
+ext.themanifest = {
+    attributes([
+            "Specification-Title"     : "katyouvotifier",
+            "Specification-Vendor"    : "MORIMORI0317",
+            "Specification-Version"   : "1",
+            "Implementation-Title"    : project.name,
+            "Implementation-Version"  : "${version}",
+            "Implementation-Vendor"   : "TeamFelNull",
+            "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
+    ])
+}
+
+shadowJar {
+    configurations = [project.configurations.shadowIn]
+    classifier ''
+}
+
+afterEvaluate {
+    reobf {
+        shadowJar { mappings = tasks.reobfJar.mappings }
+    }
 }
 
 jar {
-    manifest {
-        attributes([
-                "Specification-Title"     : "katyouvotifier",
-                "Specification-Vendor"    : "MORIMORI0317",
-                "Specification-Version"   : "1",
-                "Implementation-Title"    : project.name,
-                "Implementation-Version"  : "${version}",
-                "Implementation-Vendor"   : "TeamFelNull",
-                "Implementation-Timestamp": new Date().format("yyyy-MM-dd'T'HH:mm:ssZ")
-        ])
-    }
+    manifest themanifest
+}
+
+task devJar(type: Jar) {
+    from sourceSets.main.output
+    classifier = 'dev'
+    manifest themanifest
+}
+task sourceJar(type: Jar) {
+    from sourceSets.main.allSource
+    classifier = 'sources'
+    manifest themanifest
+}
+artifacts {
+    archives devJar
+    archives sourceJar
 }
 
 jar.finalizedBy('reobfJar')
-
-publishing {
-    publications {
-        mavenJava(MavenPublication) {
-            artifact jar
-        }
-    }
-    repositories {
-        maven {
-            url "file:///${project.projectDir}/mcmodsrepo"
-        }
-    }
-}
