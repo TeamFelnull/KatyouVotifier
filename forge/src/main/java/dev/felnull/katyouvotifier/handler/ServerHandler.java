@@ -21,12 +21,12 @@ import net.minecraftforge.fml.LogicalSide;
 import net.minecraftforge.fml.LogicalSidedProvider;
 import net.minecraftforge.fml.event.server.FMLServerStartingEvent;
 import net.minecraftforge.fml.event.server.FMLServerStoppingEvent;
-import net.minecraftforge.fml.loading.FMLPaths;
 
 import java.io.File;
 import java.io.IOException;
 import java.nio.charset.StandardCharsets;
 import java.nio.file.Files;
+import java.nio.file.Paths;
 import java.security.Key;
 import java.security.KeyPair;
 import java.util.ArrayList;
@@ -83,7 +83,9 @@ public class ServerHandler {
 
     public static void loadVotifier(MinecraftServer server) {
         scheduler = new ForgeScheduler(server);
-        File config = new File(FMLPaths.CONFIGDIR.get().resolve(KatyouVotifierForge.MODID).toFile(), "config.json");
+        // File config = new File(FMLPaths.CONFIGDIR.get().resolve(KatyouVotifierForge.MODID).toFile(), "config.json");
+        File config = new File(Paths.get("./").resolve(KatyouVotifierForge.MODID).toFile(), "config.json");
+
         JsonObject jo = getOrGenerateConfig(config);
         String host = jo.get("host").getAsString();
         int port = jo.get("port").getAsInt();
@@ -97,7 +99,8 @@ public class ServerHandler {
 
         boolean debug = jo.get("debug").getAsBoolean();
 
-        File rsaDirectory = new File(FMLPaths.CONFIGDIR.get().resolve(KatyouVotifierForge.MODID).toFile(), "rsa");
+        //   File rsaDirectory = new File(FMLPaths.CONFIGDIR.get().resolve(KatyouVotifierForge.MODID).toFile(), "rsa");
+        File rsaDirectory = new File(Paths.get("./").resolve(KatyouVotifierForge.MODID).toFile(), "rsa");
 
         KeyPair keyPair;
         try {
@@ -153,16 +156,19 @@ public class ServerHandler {
         KatyouVotifierForge.LOGGER.info("------------------------------------------------------------------------------");
 
         if (!configFile.getParentFile().exists()) {
-            if (!configFile.getParentFile().mkdirs())
+            if (!configFile.getParentFile().mkdirs()) {
                 KatyouVotifierForge.LOGGER.error("Failed to create config directory!");
-        } else {
-            try {
-                Files.write(configFile.toPath(), GSON.toJson(jo).getBytes(StandardCharsets.UTF_8));
-            } catch (IOException e) {
-                e.printStackTrace();
-                KatyouVotifierForge.LOGGER.error("Failed to write config file!", e);
+                return jo;
             }
         }
+
+        try {
+            Files.write(configFile.toPath(), GSON.toJson(jo).getBytes(StandardCharsets.UTF_8));
+        } catch (IOException e) {
+            e.printStackTrace();
+            KatyouVotifierForge.LOGGER.error("Failed to write config file!", e);
+        }
+
         return jo;
     }
 
