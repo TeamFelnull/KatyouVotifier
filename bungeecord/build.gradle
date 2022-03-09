@@ -1,5 +1,0 @@
-dependencies {
-    compileOnly group: "net.md-5", name: "bungeecord-api", version: "1.8-SNAPSHOT"
-    implementation project(":katyouvotifier-api")
-    implementation project(":katyouvotifier-common")
-}

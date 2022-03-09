@@ -1,52 +1,25 @@
+# eclipse
+bin
+*.launch
+.settings
+.metadata
+.classpath
+.project
 
-forge/run
-
-# Eclipse stuff
-/.classpath
-/.project
-/.settings
-/.checkstyle
-
-# netbeans
-/nbproject
-
-# we use maven!
-/build.xml
-
-# maven
-/*/target/
-dependency-reduced-pom.xml
-
-# vim
-.*.sw[a-p]
-
-# various other potential build files
-build/
-/bin
-/dist
-/manifest.mf
-
-/world
-
-# Mac filesystem dust
-*.DS_Store
-
-# intellij
-*.iml
+# idea
+out
 *.ipr
 *.iws
-.idea/
+*.iml
+.idea
 
-# Fern's utils
-uploadtoserver.sh
+# gradle
+build
+.gradle
 
-# Testing files:
-debug.log
+# other
+eclipse
+run
 
-# Doxygen
-/docs/html
-debug.txt
-
-# gradle stuff
-.gradle/
-.gradletasknamecache
+# Files from Forge MDK
+forge*changelog.txt

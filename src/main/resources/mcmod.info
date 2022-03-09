@@ -1,0 +1,16 @@
+[
+{
+  "modid": "katyouvotifier",
+  "name": "Katyou Votifier",
+  "description": "NuVotifire simple port.",
+  "version": "${version}",
+  "mcversion": "${mcversion}",
+  "url": "",
+  "updateUrl": "",
+  "authorList": ["MORIMORI0317"],
+  "credits": "Team FelNull",
+  "logoFile": "",
+  "screenshots": [],
+  "dependencies": []
+}
+]
