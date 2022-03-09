@@ -11,7 +11,7 @@ import net.minecraftforge.fml.common.event.FMLServerStartedEvent;
 import net.minecraftforge.fml.common.event.FMLServerStoppingEvent;
 import org.apache.logging.log4j.Logger;
 
-@Mod(modid = KatyouVotifier.MODID, name = KatyouVotifier.NAME, version = KatyouVotifier.VERSION)
+@Mod(modid = KatyouVotifier.MODID, name = KatyouVotifier.NAME, version = KatyouVotifier.VERSION, acceptableRemoteVersions = "*")
 public class KatyouVotifier {
     public static final String MODID = "katyouvotifier";
     public static final String NAME = "Katyou Votifier";
